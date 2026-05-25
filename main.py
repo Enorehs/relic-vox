@@ -7,12 +7,8 @@ import time
 import numpy as np
 
 #MIDI setup
-try:
-    midi_out = mido.open_output('PythonMIDI 1')
-    print("SYS.LOG: MIDI Bridge Connected.")
-except Exception as e:
-    print(f"MIDI Error: {e}\nEnsure LoopMIDI is running and 'PythonMIDI 1' exists.")
-    exit()
+midi_out = mido.open_output('PythonMIDI 1 1')
+print("SYS.LOG: MIDI Bridge Connected")
 
 #MediaPipe setup
 mp_hands = mp.solutions.hands
@@ -23,8 +19,8 @@ CHORDS = {
     'A_Minor': [45, 48, 52], # Y Sign
     'B_Major': [47, 51, 54], # B Sign (Flat Palm)
     'C_Major': [48, 52, 55], # C Sign (Claw)
-    'D_Major': [50, 54, 57], # D Sign (Pointer Up)
-    'E_Major': [52, 56, 59], # I Sign (Pinky Up)
+    'D_Minor': [50, 53, 57], # D Sign (Pointer Up)
+    'E_Minor': [52, 55, 59], # I Sign (Pinky Up)
     'F_Major': [53, 57, 60], # F Sign (OK Sign)
     'G_Major': [55, 59, 62], # L Sign
 }
@@ -109,9 +105,9 @@ while cap.isOpened():
         elif index_open and middle_open and ring_open and pinky_open and wrist_to_middle < 0.35:
             detected_chord = 'C_Major' # C Sign (Clawed/Curved)
         elif index_open and not middle_open and not ring_open and not pinky_open and not thumb_open:
-            detected_chord = 'D_Major' # D Sign
+            detected_chord = 'D_Minor' # D Sign
         elif pinky_open and not index_open and not middle_open and not ring_open and not thumb_open:
-            detected_chord = 'E_Major' # I Sign
+            detected_chord = 'E_Minor' # I Sign
         elif thumb_index_dist < 0.05 and middle_open and ring_open and pinky_open:
             detected_chord = 'F_Major' # F Sign (OK Sign)
         elif thumb_open and index_open and not middle_open and not ring_open and not pinky_open:
